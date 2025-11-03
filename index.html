@@ -7,13 +7,11 @@
   <meta name="description" content="Prioritize tasks by urgency and importance. Create an account, log in, and manage your personal Eisenhower Matrix." />
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#111114">
-
   <style>
     :root{
       --bg:#0b0b11; --panel:#14141c; --border: color-mix(in oklab, #e9edf1 12%, transparent);
       --fg:#e9edf1; --muted:#a1a8b3; --brand:#6aa3ff; --brand-ink:#0b4dd6;
       --chip:#1c1c27; --chip-hover:#232331; --shadow: 0 1px 0 rgba(0,0,0,.15), 0 8px 24px rgba(0,0,0,.25);
-      /* Quadrant tints */
       --q1:#ef4444; --q2:#22c55e; --q3:#f59e0b; --q4:#9ca3af;
       color-scheme: light dark;
     }
@@ -24,7 +22,6 @@
         --shadow: 0 1px 0 rgba(0,0,0,.05), 0 8px 24px rgba(0,0,0,.08);
       }
     }
-
     html, body { height: 100%; }
     body {
       margin: 0; background: var(--bg); color: var(--fg);
@@ -35,7 +32,7 @@
     .wrap { min-height: 100%; display: grid; grid-template-rows: auto 1fr auto }
     header, main, footer { padding-inline: clamp(1rem, 4vw, 3rem) }
     header { padding-block: 1rem; border-block-end: 1px solid var(--border) }
-    main   { padding-block: 1.25rem } /* tighter for phones */
+    main   { padding-block: 1.1rem } /* tighter on phones */
     footer { padding-block: 2rem; color: var(--muted) }
     :where(a,button,input,textarea,select):focus-visible{ outline: 2px solid var(--brand); outline-offset: 2px; }
     @media (prefers-reduced-motion: reduce){ *{ animation: none !important; transition: none !important; } }
@@ -102,11 +99,7 @@
     .quad[aria-dropeffect="move"]{ box-shadow: 0 0 0 2px color-mix(in oklab, var(--brand) 40%, transparent) inset }
 
     .keyline { color: var(--muted); font-size: .85rem }
-    .axes { display:grid; grid-template-columns:1fr auto; align-items:center; gap:.5rem; margin-block-end:.5rem; color:var(--muted); font-weight:600 }
-    .axis-y { writing-mode: vertical-rl; transform: rotate(180deg); opacity:.8 }
-    .legend { display:grid; grid-template-columns:1fr 1fr; gap:.5rem; font-size:.9rem; color:var(--muted) }
-    .legend span{ display:inline-flex; align-items:center; gap:.35rem }
-    .dot{ inline-size:.65rem; block-size:.65rem; border-radius:999px; background: currentColor; display:inline-block }
+    .hide { display: none !important }
 
     /* Quadrant colors */
     .quad[data-q="Q1"]{ background: color-mix(in oklab, var(--q1) 12%, transparent); border-color: color-mix(in oklab, var(--q1) 40%, var(--border)); }
@@ -114,7 +107,7 @@
     .quad[data-q="Q3"]{ background: color-mix(in oklab, var(--q3) 10%, transparent); border-color: color-mix(in oklab, var(--q3) 38%, var(--border)); }
     .quad[data-q="Q4"]{ background: color-mix(in oklab, var(--q4) 10%, transparent); border-color: color-mix(in oklab, var(--q4) 35%, var(--border)); }
 
-    /* Tighten spacing for small screens */
+    /* Tight spacing for small screens */
     #app.card{ padding: clamp(.6rem, 2vw, .9rem); }
     #app > header{ margin-block-end: .25rem; }
   </style>
@@ -179,105 +172,96 @@
         <header style="display:flex;justify-content:space-between;align-items:center;gap:.75rem; border:0; padding:0">
           <div>
             <h1 id="app-title" style="margin:0">Your Eisenhower Matrix</h1>
-          
             <p id="whoami" class="keyline" role="status" aria-live="polite"></p>
           </div>
           <div><button id="logout-btn" class="muted-btn" type="button">Log out</button></div>
         </header>
 
         <div class="matrix-wrap" id="matrix" role="grid" aria-describedby="matrix-desc">
-
           <section class="quad" data-q="Q1" role="row" aria-labelledby="q1h">
             <header><h2 id="q1h">Q1 — Urgent & Important</h2><span class="keyline">Do now</span></header>
-            <div class="field"><label class="visually-hidden" for="in-q1">Add item to Q1</label><input id="in-q1" data-q="Q1" type="text" placeholder="Add task… Enter=Personal · Tab=Work" /></div>
+            <div class="field"><label class="hide" for="in-q1">Add item to Q1</label><input id="in-q1" data-q="Q1" type="text" placeholder="Add task… Enter=Personal · Tab=Work" /></div>
             <div class="tags" role="list" aria-label="Q1 items"></div>
           </section>
 
           <section class="quad" data-q="Q2" role="row" aria-labelledby="q2h">
             <header><h2 id="q2h">Q2 — Not Urgent & Important</h2><span class="keyline">Schedule</span></header>
-            <div class="field"><label class="visually-hidden" for="in-q2">Add item to Q2</label><input id="in-q2" data-q="Q2" type="text" placeholder="Add task… Enter=Personal · Tab=Work" /></div>
+            <div class="field"><label class="hide" for="in-q2">Add item to Q2</label><input id="in-q2" data-q="Q2" type="text" placeholder="Add task… Enter=Personal · Tab=Work" /></div>
             <div class="tags" role="list" aria-label="Q2 items"></div>
           </section>
 
           <section class="quad" data-q="Q3" role="row" aria-labelledby="q3h">
             <header><h2 id="q3h">Q3 — Urgent & Not Important</h2><span class="keyline">Delegate</span></header>
-            <div class="field"><label class="visually-hidden" for="in-q3">Add item to Q3</label><input id="in-q3" data-q="Q3" type="text" placeholder="Add task… Enter=Personal · Tab=Work" /></div>
+            <div class="field"><label class="hide" for="in-q3">Add item to Q3</label><input id="in-q3" data-q="Q3" type="text" placeholder="Add task… Enter=Personal · Tab=Work" /></div>
             <div class="tags" role="list" aria-label="Q3 items"></div>
           </section>
 
           <section class="quad" data-q="Q4" role="row" aria-labelledby="q4h">
             <header><h2 id="q4h">Q4 — Not Urgent & Not Important</h2><span class="keyline">Eliminate</span></header>
-            <div class="field"><label class="visually-hidden" for="in-q4">Add item to Q4</label><input id="in-q4" data-q="Q4" type="text" placeholder="Add task… Enter=Personal · Tab=Work" /></div>
+            <div class="field"><label class="hide" for="in-q4">Add item to Q4</label><input id="in-q4" data-q="Q4" type="text" placeholder="Add task… Enter=Personal · Tab=Work" /></div>
             <div class="tags" role="list" aria-label="Q4 items"></div>
           </section>
         </div>
       </section>
     </main>
 
-    <footer role="contentinfo">
-      <small>© 2025 NAPPS</small>
-    </footer>
+    <footer role="contentinfo"><small>© 2025 Eisenhower Matrix</small></footer>
   </div>
 
   <script type="module">
     // ========= CONFIG =========
-    // Replace with your deployed Apps Script Web App URL
-    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzfFXHmxjoTnS9l9aZsc5Q8uI0mGyty7H0zm9FNmNUPZW_O00T8wrL4yu_HbPT-e6g/exec';
+    // Your deployed Apps Script Web App URL:
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxiS3Y1TwRklu8e4pdHAambKaocSUwcYShiW11GY6hlPknB49QbefgUoy6rsb9DC_M/exec';
 
     // ========= UTILITIES =========
     const $ = (sel, el=document) => el.querySelector(sel);
     const $$ = (sel, el=document) => Array.from(el.querySelectorAll(sel));
     const byId = id => document.getElementById(id);
-
-    const state = { token:null, user:null, items:[] }; // items: {id,text,quadrant,order,kind}
     const quads = ['Q1','Q2','Q3','Q4'];
 
-    // Text/plain body => "simple request" (no CORS preflight)
-    async function callAPI(action, payload = {}){
-      const res = await fetch(WEB_APP_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ action, ...payload })
+    // JSONP transport (no CORS). Payload is base64url-encoded to keep logs tidy.
+    function b64uEncode(str){ return btoa(unescape(encodeURIComponent(str))).replaceAll('+','-').replaceAll('/','_').replace(/=+$/,''); }
+    let cbSeq = 0;
+    function jsonp(action, payload={}){
+      return new Promise((resolve, reject) => {
+        const callbackName = `__jsonp_cb_${Date.now()}_${cbSeq++}`;
+        const onTimeout = setTimeout(() => { cleanup(); reject(new Error('Network timeout')); }, 20000);
+        function cleanup(){
+          clearTimeout(onTimeout);
+          delete window[callbackName];
+          script.remove();
+        }
+        window[callbackName] = (data) => { cleanup(); if (data && data.error) reject(new Error(data.error)); else resolve(data); };
+        const d = b64uEncode(JSON.stringify({ action, ...payload }));
+        const script = document.createElement('script');
+        script.src = `${WEB_APP_URL}?a=${encodeURIComponent(action)}&d=${encodeURIComponent(d)}&callback=${encodeURIComponent(callbackName)}`;
+        script.onerror = () => { cleanup(); reject(new Error('Network error')); };
+        document.head.appendChild(script);
       });
-      if (!res.ok) throw new Error(`Network error ${res.status}`);
-      const json = await res.json();
-      if (json.error) throw new Error(json.error);
-      return json;
     }
 
     const svc = {
-      signup: (email, pass) => callAPI('signup', { email, password: pass }),
-      login:  (email, pass) => callAPI('login',  { email, password: pass }),
-      me:     (token)       => callAPI('me',     { token }),
-      list:   (token)       => callAPI('list',   { token }),
-      add:    (token, text, quadrant, kind) => callAPI('add', { token, text, quadrant, kind }),
-      move:   (token, id, quadrant, order) => callAPI('move', { token, id, quadrant, order }),
-      remove: (token, id)   => callAPI('delete', { token, id }),
-      logout: (token)       => callAPI('logout', { token })
+      signup: (email, pass)                   => jsonp('signup', { email, password: pass }),
+      login:  (email, pass)                   => jsonp('login',  { email, password: pass }),
+      me:     (token)                         => jsonp('me',     { token }),
+      list:   (token)                         => jsonp('list',   { token }),
+      add:    (token, text, quadrant, kind)   => jsonp('add',    { token, text, quadrant, kind }),
+      move:   (token, id, quadrant, order)    => jsonp('move',   { token, id, quadrant, order }),
+      remove: (token, id)                     => jsonp('delete', { token, id }),
+      logout: (token)                         => jsonp('logout', { token })
     };
 
-    // ========= VIEWS =========
+    // ========= STATE & VIEWS =========
+    const state = { token:null, user:null, items:[] };
     const authView = byId('auth'), appView = byId('app');
     const authHint = byId('auth-hint'), signupHint = byId('signup-hint');
     const whoami = byId('whoami');
 
-    // Signup modal controls (focus trap, escape, click backdrop)
+    // Signup modal controls
     const backdrop = byId('signup-backdrop');
-    const dialog = backdrop.querySelector('.dialog');
-    const openSignup = () => {
-      backdrop.classList.add('open');
-      backdrop.removeAttribute('aria-hidden');
-      authView.setAttribute('aria-hidden','true');
-      document.body.style.overflow = 'hidden';
-      byId('signup-email').focus();
-    };
-    const closeSignup = () => {
-      backdrop.classList.remove('open');
-      backdrop.setAttribute('aria-hidden','true');
-      authView.removeAttribute('aria-hidden');
-      document.body.style.overflow = '';
-      byId('to-signup').focus();
-    };
+    const dialog = backdrop?.querySelector('.dialog');
+    const openSignup = () => { backdrop.classList.add('open'); backdrop.removeAttribute('aria-hidden'); authView.setAttribute('aria-hidden','true'); document.body.style.overflow='hidden'; byId('signup-email').focus(); };
+    const closeSignup = () => { backdrop.classList.remove('open'); backdrop.setAttribute('aria-hidden','true'); authView.removeAttribute('aria-hidden'); document.body.style.overflow=''; byId('to-signup').focus(); };
     byId('to-signup').addEventListener('click', openSignup);
     byId('close-signup').addEventListener('click', closeSignup);
     byId('cancel-signup').addEventListener('click', closeSignup);
@@ -291,7 +275,7 @@
       else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
     });
 
-    // ========= AUTH =========
+    // Auth
     byId('signup-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = byId('signup-email').value.trim();
@@ -326,7 +310,7 @@
       render();
     });
 
-    // ========= MATRIX =========
+    // Matrix
     function render(){
       if (state.token && state.user){
         authView.classList.add('hide'); appView.classList.remove('hide');
@@ -336,7 +320,7 @@
           const list = panel.querySelector('.tags');
           list.innerHTML = '';
           const items = state.items.filter(it => it.quadrant === q).sort((a,b)=>a.order-b.order);
-          for (const it of items){ list.appendChild(chip(it)); }
+          for (const it of items) list.appendChild(chip(it));
         }
         enableDnD();
       }else{
@@ -374,7 +358,6 @@
       });
       el.appendChild(rm);
 
-      // Keyboard: Ctrl/Cmd + arrows cycle quadrants
       el.addEventListener('keydown', async (e) => {
         if ((e.ctrlKey || e.metaKey) && ['ArrowUp','ArrowRight','ArrowDown','ArrowLeft'].includes(e.key)){
           e.preventDefault();
@@ -390,12 +373,12 @@
       return el;
     }
 
-    // Input: Enter => personal, Tab => work
+    // Create chip: Enter => personal, Tab => work
     $$('.quad input[type="text"]').forEach(inp => {
       inp.addEventListener('keydown', async (e) => {
         const key = e.key;
-        const wants = (key === 'Enter' || key === 'Tab') && inp.value.trim();
-        if (!wants) return;
+        const ok = (key === 'Enter' || key === 'Tab') && inp.value.trim();
+        if (!ok) return;
         e.preventDefault();
         const text = inp.value.trim();
         const kind = key === 'Tab' ? 'work' : 'personal';
@@ -409,7 +392,6 @@
       });
     });
 
-    // DnD between quadrants
     function enableDnD(){
       $$('.quad').forEach(quad => {
         quad.addEventListener('dragover', (e) => { e.preventDefault(); quad.setAttribute('aria-dropeffect','move'); });
