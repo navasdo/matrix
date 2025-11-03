@@ -179,19 +179,13 @@
         <header style="display:flex;justify-content:space-between;align-items:center;gap:.75rem; border:0; padding:0">
           <div>
             <h1 id="app-title" style="margin:0">Your Eisenhower Matrix</h1>
-            <p class="legend" aria-hidden="true">
-              <span><span class="dot"></span> Urgent</span>
-              <span><span class="dot"></span> Not urgent</span>
-              <span><span class="dot"></span> Important</span>
-              <span><span class="dot"></span> Not important</span>
-            </p>
+          
             <p id="whoami" class="keyline" role="status" aria-live="polite"></p>
           </div>
           <div><button id="logout-btn" class="muted-btn" type="button">Log out</button></div>
         </header>
 
         <div class="matrix-wrap" id="matrix" role="grid" aria-describedby="matrix-desc">
-          <p id="matrix-desc" class="visually-hidden">Four quadrants: Q1 Urgent/Important, Q2 Not Urgent/Important, Q3 Urgent/Not Important, Q4 Not Urgent/Not Important.</p>
 
           <section class="quad" data-q="Q1" role="row" aria-labelledby="q1h">
             <header><h2 id="q1h">Q1 — Urgent & Important</h2><span class="keyline">Do now</span></header>
