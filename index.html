@@ -76,11 +76,6 @@
     button:disabled{ opacity: .6; cursor: not-allowed }
     .muted-btn{ background: none; color: var(--brand); border: 1px solid var(--border); box-shadow: none; padding: .6rem .9rem }
 
-    .subHead {
-  color: slategray;
-  padding: 5px;
-} 
-
     /* Modal */
     .backdrop{
       position: fixed; inset: 0; display: none; align-items: center; justify-content: center;
@@ -193,8 +188,8 @@
         <header style="display:flex;justify-content:space-between;align-items:center;gap:.75rem; border:0; padding:0">
           <div>
             <h1 id="app-title" style="margin:0">Your Eisenhower Matrix</h1>
-          <p class="keyline">
-          &#128161; <strong>Tip:</strong> Drag chips between quadrants to reorganize.</p>
+            <p id="whoami" class="keyline" role="status" aria-live="polite"></p>
+            <p class="keyline"> &#128161; <strong>Tip:</strong> Drag chips between quadrants to reorganize.</p>
           </div>
           <div><button id="logout-btn" class="muted-btn" type="button">Log out</button></div>
         </header>
