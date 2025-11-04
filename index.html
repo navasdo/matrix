@@ -123,6 +123,29 @@
     .quad[data-q="Q3"]{ background: color-mix(in oklab, var(--q3) 10%, transparent); border-color: color-mix(in oklab, var(--q3) 38%, var(--border)); }
     .quad[data-q="Q4"]{ background: color-mix(in oklab, var(--q4) 10%, transparent); border-color: color-mix(in oklab, var(--q4) 35%, var(--border)); }
 
+    /* --- START OF FIX --- */
+    /* These styles were missing, causing the header layout to break. */
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      border: 0; /* Overrides global header style */
+      padding: 0; /* Overrides global header style */
+      flex-wrap: wrap; /* Helps header wrap on small screens */
+    }
+    .app-header-title {
+      margin: 0; /* Replaces the h1's inline style */
+    }
+    /* These classes group the header content and user button */
+    .app-header-main,
+    .app-header-user {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem; 
+    }
+    /* --- END OF FIX --- */
+
     /* Tight spacing for small screens */
     #app.card{ padding: clamp(.6rem, 2vw, .9rem); }
     #app > header{ margin-block-end: .25rem; }
@@ -185,15 +208,27 @@
 
       <!-- APP -->
       <section id="app" class="card compact hide" aria-labelledby="app-title">
-        <header style="display:flex;justify-content:space-between;align-items:center;gap:.75rem; border:0; padding:0">
-          <div>
-            <h1 id="app-title" style="margin:0">Your Eisenhower Matrix</h1>
-            <a href="/scribe.html">&#128395; Scribe Notes || Placeholder || Placeholder</a>
+    
+    <header class="app-header">
+        
+        <div class="app-header-main">
+            <h1 id="app-title" class="app-header-title">Your Eisenhower Matrix</h1>
+            <a href="/scribe.html">
+                <span aria-hidden="true">&#128395;</span> Scribe Notes || Placeholder || Placeholder
+            </a>
             <p id="whoami" class="keyline" role="status" aria-live="polite"></p>
-            <p class="keyline"> &#128161; <strong>Tip:</strong> Drag chips between quadrants to reorganize. </p>
-          </div>
-          <div><button id="logout-btn" class="muted-btn" type="button">Log out</button></div>
-        </header>
+        </div>
+        
+        <div class="app-header-user">
+            <button id="logout-btn" class="muted-btn" type="button">Log out</button>
+        </div>
+    </header>
+
+    <p class="keyline">
+        <span aria-hidden="true">&#128161;</span> 
+        <strong>Tip:</strong> Drag chips between quadrants to reorganize.
+    </p>
+
 
         <div class="matrix-wrap" id="matrix" role="grid" aria-describedby="matrix-desc">
           <section class="quad" data-q="Q1" role="row" aria-labelledby="q1h">
